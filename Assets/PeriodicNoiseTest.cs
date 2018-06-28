@@ -7,7 +7,7 @@ public class PeriodicNoiseTest : MonoBehaviour
 {
     const int kResolution = 0x200;
 
-    [ComputeJobOptimization]
+    [Unity.Burst.BurstCompile]
     struct NoiseJob : IJobParallelFor
     {
         [ReadOnly] public bool periodic;

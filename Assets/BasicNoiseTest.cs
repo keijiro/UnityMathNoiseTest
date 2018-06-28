@@ -12,7 +12,7 @@ public class BasicNoiseTest : MonoBehaviour
         Simplex2D, Simplex3D, Simplex4D
     }
 
-    [ComputeJobOptimization]
+    [Unity.Burst.BurstCompile]
     struct NoiseJob : IJobParallelFor
     {
         [ReadOnly] public NoiseType type;
