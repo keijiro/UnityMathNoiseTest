@@ -3,7 +3,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class NoiseTest : MonoBehaviour
+public class BasicNoiseTest : MonoBehaviour
 {
     const int kResolution = 0x200;
 
