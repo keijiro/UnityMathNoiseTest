@@ -13,7 +13,6 @@ public class PeriodicNoiseTest : MonoBehaviour
         [ReadOnly] public bool periodic;
         [ReadOnly] public bool derivative;
         [ReadOnly] public bool rotation;
-        [ReadOnly] public int period;
         [ReadOnly] public float frequency;
         [ReadOnly] public float time;
 
@@ -73,9 +72,9 @@ public class PeriodicNoiseTest : MonoBehaviour
         }
     }
 
-    [SerializeField] bool _periodic;
-    [SerializeField] bool _derivative;
-    [SerializeField] bool _rotation;
+    [SerializeField] bool _periodic = false;
+    [SerializeField] bool _derivative = false;
+    [SerializeField] bool _rotation = false;
     [SerializeField] float _frequency = 10;
 
     Texture2D _texture;
