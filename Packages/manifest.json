@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "com.unity.burst": "1.0.4",
-    "com.unity.mathematics": "1.0.1",
-    "com.unity.package-manager-ui": "2.1.2"
+    "com.unity.burst": "1.1.2",
+    "com.unity.mathematics": "1.1.0"
   }
 }

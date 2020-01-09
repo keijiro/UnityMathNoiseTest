@@ -7,13 +7,15 @@ public class PeriodicNoiseTest : MonoBehaviour
 {
     const int kResolution = 0x200;
 
-    [Unity.Burst.BurstCompile]
+    [Unity.Burst.BurstCompile(CompileSynchronously = true)]
     struct NoiseJob : IJobParallelFor
     {
         [ReadOnly] public bool periodic;
         [ReadOnly] public bool derivative;
         [ReadOnly] public bool rotation;
-        [ReadOnly] public float frequency;
+        [ReadOnly] public float2 frequency;
+        [ReadOnly] public float2 period;
+        [ReadOnly] public float2 offset;
         [ReadOnly] public float time;
 
         public NativeArray<Color32> pixels;
@@ -25,16 +27,16 @@ public class PeriodicNoiseTest : MonoBehaviour
                 if (derivative)
                 {
                     if (rotation)
-                        return noise.psrdnoise(pos, 4, rot);
+                        return noise.psrdnoise(pos, period, rot);
                     else
-                        return noise.psrdnoise(pos, 4);
+                        return noise.psrdnoise(pos, period);
                 }
                 else
                 {
                     if (rotation)
-                        return noise.psrnoise(pos, 4, rot);
+                        return noise.psrnoise(pos, period, rot);
                     else
-                        return noise.psrnoise(pos, 4);
+                        return noise.psrnoise(pos, period);
                 }
             }
             else
@@ -62,7 +64,7 @@ public class PeriodicNoiseTest : MonoBehaviour
             var x = i - y * kResolution;
 
             var p = (new float2(x, y) - kResolution / 2) * 2 * frequency / kResolution;
-            var c = math.saturate(Noise(p, time) * 0.5f + 0.5f);
+            var c = math.saturate(Noise(p + offset, time) * 0.5f + 0.5f);
 
             var r = (System.Byte)(c.x * 255);
             var g = (System.Byte)(c.y * 255);
@@ -75,7 +77,9 @@ public class PeriodicNoiseTest : MonoBehaviour
     [SerializeField] bool _periodic = false;
     [SerializeField] bool _derivative = false;
     [SerializeField] bool _rotation = false;
-    [SerializeField] float _frequency = 10;
+    [SerializeField] float2 _frequency = 10;
+    [SerializeField] float2 _period = 4;
+    [SerializeField] float2 _offset = 10;
 
     Texture2D _texture;
     NativeArray<Color32> _pixels;
@@ -100,6 +104,8 @@ public class PeriodicNoiseTest : MonoBehaviour
             derivative = _derivative,
             rotation = _rotation,
             frequency = _frequency,
+            period = _period,
+            offset = _offset,
             time = Time.time,
             pixels = _pixels
         };
